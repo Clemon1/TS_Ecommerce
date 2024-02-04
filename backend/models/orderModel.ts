@@ -6,6 +6,7 @@ type orderTypes = {
     {
       productId: Types.ObjectId;
       productImage: string;
+      productName: string;
       price: number;
       quantity: number;
     },
@@ -29,6 +30,7 @@ const orderSchema = new Schema<orderTypes>(
           required: true,
         },
         productImage: { type: String },
+        productName: { type: String },
         price: { type: Number },
         quantity: { type: Number, default: 1 },
       },

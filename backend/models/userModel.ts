@@ -4,8 +4,9 @@ type user = {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: number;
+  phoneNumber: string;
   password: string;
+  role: string;
   wishlist: [Types.ObjectId];
 };
 
@@ -20,7 +21,13 @@ const userSchema = new Schema<user>(
       required: true,
     },
     email: { type: String, required: true },
-    phoneNumber: { type: Number, required: true },
+    phoneNumber: { type: String, required: true },
+    role: {
+      type: String,
+      enum: ["ADMIN", "USER"],
+      default: "USER",
+      required: true,
+    },
     wishlist: [
       {
         type: Schema.Types.ObjectId,

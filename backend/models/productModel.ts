@@ -16,7 +16,7 @@ const productSchema = new Schema<productTypes>(
     image: { type: String, required: true },
     otherPhoto: [{ type: String, required: true }],
     description: { type: String, required: true },
-    category: { type: Schema.Types.ObjectId, ref: "category", required: true },
+    category: { type: Schema.Types.ObjectId, ref: "category" },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
   },

@@ -5,8 +5,6 @@ type cartTypes = {
   product: [
     {
       productId: Types.ObjectId;
-      productImage: string;
-      price: number;
       quantity: number;
     },
   ];
@@ -23,8 +21,6 @@ const cartSchema = new Schema<cartTypes>(
           ref: "products",
           required: true,
         },
-        productImage: { type: String },
-        price: { type: Number },
         quantity: { type: Number, default: 1 },
       },
     ],
