@@ -3,7 +3,9 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { dbConnect } from "./middlewares/dbConnect";
 import authRouter from "./routes/authRoutes";
+import userRouter from "./routes/userRoutes";
 import productRouter from "./routes/productRoutes";
+import cartRouter from "./routes/cartRoutes";
 dotenv.config();
 const app = express();
 dbConnect(`${process.env.db_URL}`);
@@ -22,8 +24,9 @@ app.get("/", (req, res) => {
 
 // API Endpoints
 app.use("/auth", authRouter);
+app.use("/user", userRouter);
 app.use("/product", productRouter);
-
+app.use("/cart", cartRouter);
 const startServer = (): void => {
   app.listen(PORT, () => console.log(`listening on ${PORT}`));
 };

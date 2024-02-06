@@ -55,6 +55,6 @@ const orderSchema = new Schema<orderTypes>(
   },
 );
 
-const Orders = model("orders", orderSchema);
+const Orders = model<orderTypes>("orders", orderSchema);
 
 export default Orders;

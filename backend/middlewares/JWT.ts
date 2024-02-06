@@ -51,13 +51,19 @@ export const verifyToken = async (
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   if (req.role !== "ADMIN") {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res
+      .status(401)
+      .json({
+        message: "You are not authorized as an admin use this endpoint",
+      });
   }
   next();
 };
 export const isUser = (req: Request, res: Response, next: NextFunction) => {
   if (req.role !== "USER") {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res
+      .status(401)
+      .json({ message: "You are authorized as a user to use this endpoint" });
   }
   next();
 };

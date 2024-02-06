@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 type productTypes = {
   title: string;
@@ -25,5 +25,5 @@ const productSchema = new Schema<productTypes>(
   },
 );
 
-const product = model("products", productSchema);
+const product = model<productTypes>("products", productSchema);
 export default product;

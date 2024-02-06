@@ -24,12 +24,12 @@ const cartSchema = new Schema<cartTypes>(
         quantity: { type: Number, default: 1 },
       },
     ],
-    totalPrice: { type: Number, required: true },
+    totalPrice: { type: Number },
   },
   {
     timestamps: true,
   },
 );
 
-const cart = model("cart", cartSchema);
+const cart = model<cartTypes>("cart", cartSchema);
 export default cart;

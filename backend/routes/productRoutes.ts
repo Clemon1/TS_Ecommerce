@@ -3,8 +3,11 @@ import {
   createProducts,
   getAllProducts,
   getSingleProducts,
+  updateProducts,
+  wishlistProducts,
 } from "../controllers/productController";
 import { upload } from "../middlewares/upload";
+import { isUser, verifyToken } from "../middlewares/JWT";
 
 const router = Router();
 
@@ -18,5 +21,13 @@ router.post(
   ]),
   createProducts,
 );
+router.patch(
+  "/v1/wishlistProduct/:productId",
+  verifyToken,
+  isUser,
+  wishlistProducts,
+);
+
+router.patch("/v1/updateProduct/:id", updateProducts);
 
 export default router;
