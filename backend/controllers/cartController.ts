@@ -29,7 +29,7 @@ export const getUserCart = async (req: Request, res: Response) => {
   }
 };
 
-// get user cart information
+// Add product to cart
 export const addToCart = async (req: Request, res: Response) => {
   try {
     const currentUser = req.user;
@@ -77,7 +77,7 @@ export const addToCart = async (req: Request, res: Response) => {
   }
 };
 
-// get user cart information
+// Increase cart quantity
 export const increaseCartQuantity = async (req: Request, res: Response) => {
   try {
     const currentUser = req.user;
@@ -108,7 +108,7 @@ export const increaseCartQuantity = async (req: Request, res: Response) => {
   }
 };
 
-// get user cart information
+// Decrease cart quantity
 export const decreaseCartQuantity = async (req: Request, res: Response) => {
   try {
     const currentUser = req.user;
@@ -124,6 +124,7 @@ export const decreaseCartQuantity = async (req: Request, res: Response) => {
     );
     if (!cartItem) return res.status(401).json("Cart product not found");
     cartItem.quantity -= 1;
+    // If the cart item quantity is less than 1 stop the decrease function
     if (cartItem.quantity <= 0) {
       return res.status(401).json("Cart quantity cannot be a negative number");
     }
@@ -135,7 +136,7 @@ export const decreaseCartQuantity = async (req: Request, res: Response) => {
   }
 };
 
-//
+// Remove item from user cart
 export const removeCartItems = async (req: Request, res: Response) => {
   try {
     const currentUser = req.user;
@@ -149,9 +150,11 @@ export const removeCartItems = async (req: Request, res: Response) => {
     const cartItem = userCart.product.findIndex(
       (item) => item.productId.toString() === productId,
     );
+    // Check if product exist inside the cart
     if (cartItem === -1) {
       return res.status(404).json({ error: "Product not found in the cart" });
     }
+    // remove item from the cart
     userCart.product.splice(cartItem, 1);
 
     await userCart.save();
