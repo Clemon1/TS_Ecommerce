@@ -5,8 +5,17 @@ import users from "../models/userModel";
 // All products
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    const getProduct = await product.find({});
-    res.status(200).json(getProduct);
+    let limit: number = 4;
+    const { page }: any = req.query;
+    const getProduct = await product
+      .find({})
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const noOfProduct = await product.find({}).countDocuments();
+    let nopfPages = noOfProduct / limit;
+
+    res.status(200).json({ product: getProduct, noOfProduct, nopfPages });
   } catch (err: any) {
     res.status(500).json(err.message);
   }

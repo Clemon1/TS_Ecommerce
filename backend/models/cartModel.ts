@@ -24,7 +24,6 @@ const cartSchema = new Schema<cartTypes>(
         quantity: { type: Number, default: 1 },
       },
     ],
-    totalPrice: { type: Number },
   },
   {
     timestamps: true,

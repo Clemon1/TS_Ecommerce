@@ -12,7 +12,7 @@ type orderTypes = {
     },
   ];
   totalPrice: number;
-  shippingAdress: string;
+  shippingAddress: string;
   status: string;
 };
 
@@ -40,7 +40,7 @@ const orderSchema = new Schema<orderTypes>(
       type: Number,
       required: true,
     },
-    shippingAdress: {
+    shippingAddress: {
       type: String,
       required: true,
     },

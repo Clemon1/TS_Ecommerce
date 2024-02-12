@@ -7,12 +7,12 @@ import {
   wishlistProducts,
 } from "../controllers/productController";
 import { upload } from "../middlewares/upload";
-import { isUser, verifyToken } from "../middlewares/JWT";
+import { isAdmin, isUser, verifyToken } from "../middlewares/JWT";
 
 const router = Router();
 
-router.get("/v1/allProduct", getAllProducts);
-router.get("/v1/:id", getSingleProducts);
+router.get("/v1/allProduct", verifyToken, getAllProducts);
+router.get("/v1/:id", verifyToken, isAdmin, isUser, getSingleProducts);
 router.post(
   "/v1/createProduct",
   upload.fields([
@@ -28,6 +28,6 @@ router.patch(
   wishlistProducts,
 );
 
-router.patch("/v1/updateProduct/:id", updateProducts);
+router.patch("/v1/updateProduct/:id", verifyToken, isAdmin, updateProducts);
 
 export default router;

@@ -6,6 +6,7 @@ import {
   increaseCartQuantity,
   decreaseCartQuantity,
   removeCartItems,
+  removeAllCartItems,
 } from "../controllers/cartController";
 import { isUser, verifyToken } from "../middlewares/JWT";
 
@@ -26,5 +27,6 @@ router.patch(
   decreaseCartQuantity,
 );
 router.delete("/v1/remove/:productId", verifyToken, isUser, removeCartItems);
+router.delete("/v1/removeAll", verifyToken, isUser, removeAllCartItems);
 
 export default router;

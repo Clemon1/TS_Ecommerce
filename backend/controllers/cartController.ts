@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 import cart from "../models/cartModel";
 import product from "../models/productModel";
+import { array } from "zod";
 
 // get user cart information
 export const getUserCart = async (req: Request, res: Response) => {
@@ -45,7 +46,6 @@ export const addToCart = async (req: Request, res: Response) => {
       userCart = new cart({
         userId: currentUser,
         product: [],
-        totalPrice: 0,
       });
     }
     const cartIndex = userCart?.product.findIndex(
@@ -158,6 +158,22 @@ export const removeCartItems = async (req: Request, res: Response) => {
     userCart.product.splice(cartItem, 1);
 
     await userCart.save();
+    res.status(200).json(userCart);
+  } catch (err: any) {
+    res.status(500).json(err.message);
+  }
+};
+
+//Remove all items from users cart
+export const removeAllCartItems = async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+    const userCart = await cart.findOne({ userId: user });
+    if (userCart) {
+      //@ts-ignore
+      userCart.product = [];
+      await userCart.save();
+    }
     res.status(200).json(userCart);
   } catch (err: any) {
     res.status(500).json(err.message);
