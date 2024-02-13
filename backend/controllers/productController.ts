@@ -32,6 +32,40 @@ export const getSingleProducts = async (req: Request, res: Response) => {
   }
 };
 
+//Search for products
+export const searchProducts = async (req: Request, res: Response) => {
+  try {
+    const { productSearch } = req.query;
+
+    const searchProduct = await product.find({
+      $or: [{ title: { $regex: productSearch, $options: "i" } }],
+    });
+    res.status(200).json(searchProduct);
+  } catch (err: any) {
+    res.status(500).json(err.message);
+  }
+};
+
+//Filter products based on price and categories
+export const filterProducts = async (req: Request, res: Response) => {
+  try {
+    const { minPrice, maxPrice } = req.query;
+    let query: any = {};
+
+    if (minPrice && maxPrice) {
+      query.price = { $gte: minPrice, $lte: maxPrice };
+    } else if (minPrice) {
+      query.price = { $gte: minPrice };
+    } else if (maxPrice) {
+      query.price = { $lte: maxPrice };
+    }
+
+    const searchProduct = await product.find(query);
+    res.status(200).json(searchProduct);
+  } catch (err: any) {
+    res.status(500).json(err.message);
+  }
+};
 // create product
 export const createProducts = async (req: Request, res: Response) => {
   try {

@@ -35,11 +35,11 @@ export const verifyToken = async (
 ) => {
   const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "Unauthorized" });
+    return res.status(401).json({ message: "Unauthorized: No token found" });
   }
   jwt.verify(token, secretKey, (err: any, decoded: any) => {
     if (err) {
-      return res.status(err).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
     }
 
     req.user = decoded?.id;
@@ -51,11 +51,9 @@ export const verifyToken = async (
 
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
   if (req.role !== "ADMIN") {
-    return res
-      .status(401)
-      .json({
-        message: "You are not authorized as an admin use this endpoint",
-      });
+    return res.status(401).json({
+      message: "You are not authorized to access this endpoint",
+    });
   }
   next();
 };
@@ -63,7 +61,16 @@ export const isUser = (req: Request, res: Response, next: NextFunction) => {
   if (req.role !== "USER") {
     return res
       .status(401)
-      .json({ message: "You are authorized as a user to use this endpoint" });
+      .json({ message: "You are not authorized to access this endpoint" });
+  }
+  next();
+};
+
+export const isBoth = (req: Request, res: Response, next: NextFunction) => {
+  if (req.role !== "USER" && req.role !== "ADMIN") {
+    return res
+      .status(401)
+      .json({ message: "You are not authorized to access this endpoint" });
   }
   next();
 };
