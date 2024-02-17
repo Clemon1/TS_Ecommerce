@@ -55,21 +55,23 @@ export const addToCart = async (req: Request, res: Response) => {
     // check if product is already in cart
     if (cartIndex !== -1) {
       userCart.product[cartIndex].quantity += 1;
+      productItem.quantity -= 1;
 
-      if (userCart.product[cartIndex].quantity > productItem.quantity) {
-        return res
-          .status(401)
-          .json("Cart quanity cannot be above product item quantity");
+      if (productItem.quantity < 0) {
+        return res.status(401).json("Item is out of stock");
       }
       await userCart.save();
+      await productItem.save();
+
       return res.status(200).json("Item quantity increased");
     } else {
       userCart?.product.push({
         productId: productItem._id,
         quantity: 1,
       });
-
+      productItem.quantity -= 1;
       await userCart.save();
+      await productItem.save();
       return res.status(200).json("Added to cart");
     }
   } catch (err: any) {
@@ -94,14 +96,16 @@ export const increaseCartQuantity = async (req: Request, res: Response) => {
     console.log(cartItem);
 
     if (!cartItem) return res.status(401).json("Cart product not found");
+    if (productItem.quantity <= 0)
+      return res.status(401).json("Cannot add quantity to cart");
     cartItem.quantity += 1;
-    if (cartItem.quantity > productItem.quantity) {
-      return res
-        .status(401)
-        .json("Cart quanity cannot be above product item quantity");
+    productItem.quantity -= 1;
+    if (productItem.quantity > 0) {
+      return res.status(401).json("Out of stock");
     }
-
+    await productItem.save();
     await userCart.save();
+
     res.status(200).json(userCart);
   } catch (err: any) {
     res.status(500).json(err.message);
@@ -123,13 +127,17 @@ export const decreaseCartQuantity = async (req: Request, res: Response) => {
       (item) => item.productId.toString() === productId,
     );
     if (!cartItem) return res.status(401).json("Cart product not found");
+
     cartItem.quantity -= 1;
+    productItem.quantity += 1;
+
     // If the cart item quantity is less than 1 stop the decrease function
     if (cartItem.quantity <= 0) {
       return res.status(401).json("Cart quantity cannot be a negative number");
     }
-
+    await productItem.save();
     await userCart.save();
+
     res.status(200).json(userCart);
   } catch (err: any) {
     res.status(500).json(err.message);
@@ -141,12 +149,19 @@ export const removeCartItems = async (req: Request, res: Response) => {
   try {
     const currentUser = req.user;
     const { productId } = req.params;
+
     const productItem = await product.findById(productId);
     if (!productItem) return res.status(401).json("Product not found");
     let userCart = await cart.findOne({ userId: currentUser });
     if (!userCart) return res.status(401).json("No cart found");
 
     // Find the cart item with the matching product ID
+    const cartItemCheck = userCart.product.find(
+      (item) => item.productId.toString() === productId,
+    );
+    //@ts-ignore
+    productItem.quantity += cartItemCheck?.quantity;
+    await productItem.save();
     const cartItem = userCart.product.findIndex(
       (item) => item.productId.toString() === productId,
     );
@@ -154,6 +169,7 @@ export const removeCartItems = async (req: Request, res: Response) => {
     if (cartItem === -1) {
       return res.status(404).json({ error: "Product not found in the cart" });
     }
+
     // remove item from the cart
     userCart.product.splice(cartItem, 1);
 
@@ -169,6 +185,7 @@ export const removeAllCartItems = async (req: Request, res: Response) => {
   try {
     const user = req.user;
     const userCart = await cart.findOne({ userId: user });
+
     if (userCart) {
       //@ts-ignore
       userCart.product = [];
