@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import { dbConnect } from "./middlewares/dbConnect";
 import authRouter from "./routes/authRoutes";
 import userRouter from "./routes/userRoutes";
+import categoryRouter from "./routes/categoryRoutes";
 import productRouter from "./routes/productRoutes";
 import cartRouter from "./routes/cartRoutes";
 import orderRouter from "./routes/orderRoutes";
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 // API Endpoints
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
+app.use("/category", categoryRouter);
 app.use("/product", productRouter);
 app.use("/cart", cartRouter);
 app.use("/order", orderRouter);

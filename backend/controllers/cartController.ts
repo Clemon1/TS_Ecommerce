@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import cart from "../models/cartModel";
 import product from "../models/productModel";
 import { array } from "zod";
+import { request } from "http";
 
 // get user cart information
 export const getUserCart = async (req: Request, res: Response) => {
@@ -35,6 +36,7 @@ export const addToCart = async (req: Request, res: Response) => {
   try {
     const currentUser = req.user;
     const { productId } = req.params;
+    const { size } = req.body;
     const productItem = await product.findById(productId);
     if (!productItem) throw new Error("Product not found");
     let userCart = await cart
@@ -68,6 +70,7 @@ export const addToCart = async (req: Request, res: Response) => {
       userCart?.product.push({
         productId: productItem._id,
         quantity: 1,
+        size: size,
       });
       productItem.quantity -= 1;
       await userCart.save();

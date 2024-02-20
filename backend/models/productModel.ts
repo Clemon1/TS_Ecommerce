@@ -6,6 +6,8 @@ type productTypes = {
   otherPhoto: [string];
   description: string;
   category: Types.ObjectId;
+  subCategory: string;
+  size: [string];
   price: number;
   quantity: number;
 };
@@ -16,7 +18,9 @@ const productSchema = new Schema<productTypes>(
     image: { type: String, required: true },
     otherPhoto: [{ type: String, required: true }],
     description: { type: String, required: true },
-    category: { type: Schema.Types.ObjectId, ref: "category" },
+    category: { type: Schema.Types.ObjectId, ref: "categories" },
+    subCategory: { type: String },
+    size: [{ type: String }],
     price: { type: Number, required: true },
     quantity: { type: Number, required: true },
   },

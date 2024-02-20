@@ -33,6 +33,6 @@ router.patch(
   wishlistProducts,
 );
 
-router.patch("/v1/updateProduct/:id", verifyToken, isAdmin, updateProducts);
+router.patch("/v1/updateProduct/:id", verifyToken, updateProducts);
 
 export default router;

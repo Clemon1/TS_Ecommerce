@@ -5,7 +5,7 @@ import users from "../models/userModel";
 // All products
 export const getAllProducts = async (req: Request, res: Response) => {
   try {
-    let limit: number = 4;
+    let limit: number = 3;
     const { page }: any = req.query;
     const getProduct = await product
       .find({})
@@ -13,7 +13,7 @@ export const getAllProducts = async (req: Request, res: Response) => {
       .skip((page - 1) * limit)
       .limit(limit);
     const noOfProduct = await product.find({}).countDocuments();
-    let nopfPages = noOfProduct / limit;
+    let nopfPages = Math.ceil(noOfProduct / limit);
 
     res.status(200).json({ product: getProduct, noOfProduct, nopfPages });
   } catch (err: any) {
