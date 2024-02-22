@@ -42,6 +42,9 @@ export const updateUserInfo = async (req: Request, res: Response) => {
 export const changeUserPassword = async (req: Request, res: Response) => {
   try {
     const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+      return res.status(401).json("Input valid password");
+    }
     const userId = req.user;
     const currentUser = await users.findById(userId);
     // check if current user exists
