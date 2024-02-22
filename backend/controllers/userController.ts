@@ -29,7 +29,7 @@ export const noOfUserMontly = async (req: Request, res: Response) => {
     return res.status(401).json({ error: "Invalid year." });
   }
   try {
-    const monthlyOrderCounts = await getMonthlyCounts(users, "createdAt", year);
+    const monthlyOrderCounts = await getMonthlyCounts(users, year);
     res.status(200).json(monthlyOrderCounts);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

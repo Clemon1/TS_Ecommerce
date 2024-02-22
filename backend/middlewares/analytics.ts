@@ -1,10 +1,6 @@
 // Create a new file (e.g., utils.js)
 
-export const getMonthlyCounts = async (
-  model: any,
-  dateField: any,
-  year: any,
-) => {
+export const getMonthlyCounts = async (model: any, year: any) => {
   const monthlyCounts = [];
   const currentDate = new Date();
 
@@ -26,6 +22,8 @@ export const getMonthlyCounts = async (
         month: "short",
         year: "numeric",
       });
+      //@ts-ignore
+
       const count = await model.countDocuments({
         createdAt: { $gte: startDate, $lte: endDate },
       });

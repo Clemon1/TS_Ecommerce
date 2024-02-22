@@ -8,10 +8,12 @@ export const getAllProducts = async (req: Request, res: Response) => {
     let limit: number = 3;
     const { page }: any = req.query;
     const getProduct = await product
-      .find({})
+      //@ts-ignore
+      .find()
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit);
+
     const noOfProduct = await product.find({}).countDocuments();
     let nopfPages = Math.ceil(noOfProduct / limit);
 
