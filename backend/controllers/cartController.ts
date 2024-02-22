@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 
 import cart from "../models/cartModel";
 import product from "../models/productModel";
-import { array } from "zod";
-import { request } from "http";
 
 // get user cart information
 export const getUserCart = async (req: Request, res: Response) => {

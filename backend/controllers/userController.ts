@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import users from "../models/userModel";
 import bcrypt from "bcrypt";
+import { getMonthlyCounts } from "../middlewares/analytics";
 
 // checking to see which user is logged in
 export const getUser = async (req: Request, res: Response) => {
@@ -20,6 +21,20 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
+// Analytics checking number of users monthly
+export const noOfUserMontly = async (req: Request, res: Response) => {
+  const year = parseInt(req.params.year);
+
+  if (isNaN(year)) {
+    return res.status(401).json({ error: "Invalid year." });
+  }
+  try {
+    const monthlyOrderCounts = await getMonthlyCounts(users, "createdAt", year);
+    res.status(200).json(monthlyOrderCounts);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 // Updating user information
 export const updateUserInfo = async (req: Request, res: Response) => {
   try {
