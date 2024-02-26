@@ -3,3 +3,25 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.searchInput ::placeholder {
+  color: #444140 !important;
+}
+.rootDraw {
+  width: 48% !important;
+}
+.indicator {
+  width: rem(12px);
+  height: rem(4px);
+  transition: width 250ms ease;
+
+  &[data-active] {
+    width: rem(40px);
+  }
+}
+
+@media (min-width: 500px) {
+  /* .rootDraw {
+    width: 60% !important;
+  } */
+}
