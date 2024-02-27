@@ -3,11 +3,11 @@ import React from "react";
 import { Carousel } from "@mantine/carousel";
 import NextImage from "next/image";
 import { Image } from "@mantine/core";
-import e1 from "@/assets/e1.jpg";
-import e2 from "@/assets/e2.jpg";
+import e1 from "@/assets/nike2.jpg";
+import e2 from "@/assets/shoesnike.jpg";
 import e3 from "@/assets/e3.jpg";
 import e4 from "@/assets/e4.jpg";
-import e5 from "@/assets/e5.jpg";
+import e5 from "@/assets/testshoe.jpg";
 import classes from "@/app/page.module.css";
 const SlideCaurosel: React.FC = () => {
   const images: any = [e1, e2, e3, e4, e5];

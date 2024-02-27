@@ -1,24 +1,43 @@
 "use client";
-import { Avatar, Button, Drawer, Flex, Group, Menu, rem } from "@mantine/core";
+import React from "react";
+import NextImage from "next/image";
+import {
+  Avatar,
+  Button,
+  Drawer,
+  Flex,
+  Group,
+  Image,
+  Menu,
+  Text,
+  rem,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconLayout, IconUser } from "@tabler/icons-react";
-import React from "react";
+import e1 from "@/assets/e1.jpg";
+import e2 from "@/assets/e2.jpg";
+import e3 from "@/assets/e3.jpg";
+import e4 from "@/assets/e4.jpg";
+import e5 from "@/assets/e5.jpg";
 
 const SubNav: React.FC = () => {
   const [opened, { open, close }] = useDisclosure(false);
   let name: any = [
     {
       id: 1,
+      img: e1,
       name: "Anime",
       sub: ["One Piece", "Naruto", "Claymore", "Kingdom"],
     },
     {
       id: 2,
+      img: e2,
       name: "Movies",
       sub: ["Avater", "Marvel"],
     },
     {
       id: 3,
+      img: e5,
       name: "Fashion",
       sub: [
         "Avater",
@@ -35,6 +54,7 @@ const SubNav: React.FC = () => {
     },
     {
       id: 4,
+      img: e3,
       name: "Electronics",
       sub: [
         "Avater",
@@ -77,14 +97,18 @@ const SubNav: React.FC = () => {
                   position='right'
                   transitionProps={{ transition: "fade", duration: 150 }}>
                   <Menu.Target>
-                    <Button
-                      bg={"transparent"}
-                      fz={17}
-                      fw={500}
-                      c='#000814'
-                      w={"100%"}>
-                      {test.name}
-                    </Button>
+                    <Flex w={"100%"} h={"8vh"} px={4} gap={8} align={"center"}>
+                      <Image
+                        src={test.img}
+                        component={NextImage}
+                        w={"25%"}
+                        h={"100%"}
+                        alt='ia'
+                        fit='contain'
+                        radius={"md"}
+                      />
+                      <Text c={"#000000"}> {test.name}</Text>
+                    </Flex>
                   </Menu.Target>
 
                   <Menu.Dropdown style={{ borderRadius: "14px" }}>

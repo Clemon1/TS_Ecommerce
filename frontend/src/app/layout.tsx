@@ -40,7 +40,7 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
 
-      <body className={`${inter.variable} ${roboto.variable}`}>
+      <body className={roboto.className}>
         <MantineProvider theme={theme}>
           <Navbar />
 

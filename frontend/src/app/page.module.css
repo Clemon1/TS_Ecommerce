@@ -1,3 +1,7 @@
 .control {
   background-color: #ffffff;
+  &[data-inactive] {
+    opacity: 0;
+    cursor: default;
+  }
 }
