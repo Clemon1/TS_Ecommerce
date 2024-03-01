@@ -5,3 +5,9 @@
     cursor: default;
   }
 }
+.selectInput {
+  background: #ffffff;
+  border: 2px #444140 solid;
+  color: #000000 !important;
+  font-weight: 600;
+}

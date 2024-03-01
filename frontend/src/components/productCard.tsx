@@ -1,10 +1,33 @@
+"use client";
+import React, { useState } from "react";
 import { Button, Card, Image, Rating, SimpleGrid, Text } from "@mantine/core";
 import NextImage from "next/image";
-import React from "react";
-import e3 from "@/assets/e3.jpg";
-import { IconBookmark } from "@tabler/icons-react";
+import { IconBookmark, IconBookmarkFilled } from "@tabler/icons-react";
 
-const ProductCard: React.FC = () => {
+type CardProps = {
+  title: string;
+  imgUrl: string;
+  price: number;
+  rating: number;
+  product: string;
+};
+const ProductCard: React.FC<CardProps> = ({
+  title,
+  imgUrl,
+  price,
+  rating,
+  product,
+}) => {
+  const [activeProd, setProduct] = useState<any>([]);
+  const toggleBookmark = (product: string) => {
+    if (activeProd.includes(product)) {
+      //this removes the product from favorites
+      setProduct(activeProd.filter((p: any) => p !== product));
+    } else {
+      // this adds the product to favorites
+      setProduct([...activeProd, product]);
+    }
+  };
   return (
     <Card
       shadow='sm'
@@ -16,19 +39,26 @@ const ProductCard: React.FC = () => {
       }}>
       <Card.Section pos={"relative"}>
         <Button
-          bg={"#ffffff"}
+          bg={"#f4f4f4"}
           w={37}
+          onClick={() => toggleBookmark(product)}
           p={4}
           pos={"absolute"}
+          c='#0b5351'
           radius={"xl"}
           top={15}
           right={15}>
-          <IconBookmark color='#000000' />
+          {activeProd.includes(product) ? (
+            <IconBookmarkFilled />
+          ) : (
+            <IconBookmark color={"#000000"} />
+          )}
         </Button>
         <Image
           component={NextImage}
-          src={e3}
+          src={imgUrl}
           fit='cover'
+          bgp={"center"}
           h={{ base: 200, sm: 300, xl: 300 }}
           alt='Image Slide'
         />
@@ -38,20 +68,30 @@ const ProductCard: React.FC = () => {
         py={2}
         spacing={"md"}
         verticalSpacing={{ base: 2, sm: 2 }}>
-        <Text lineClamp={1} fw={600} ta={"left"} fz={17}>
-          Playstation 5 1TB With 2 Controllers
+        <Text
+          lineClamp={2}
+          fw={600}
+          ta={"left"}
+          pr={18}
+          style={{
+            textWrap: "wrap",
+          }}
+          fz={16}
+          w={{ base: "100%", sm: "130", lg: "130%" }}>
+          {title}
         </Text>
         <Text
-          fw={900}
+          fw={700}
           size='lg'
           ta={{
             base: "left",
-            sm: "left",
+            xs: "left",
+            sm: "right",
             md: "right",
             lg: "right",
             xl: "right",
           }}>
-          $105.99
+          ${price}
         </Text>
       </SimpleGrid>
 
@@ -61,7 +101,7 @@ const ProductCard: React.FC = () => {
         pos={"relative"}
         spacing={"xl"}
         verticalSpacing={{ base: 8, sm: 8 }}>
-        <Rating defaultValue={2} color='#0b5351' />
+        <Rating defaultValue={rating} color='#0b5351' />
         <Button
           bg={"#092327"}
           c='#ffffff'

@@ -22,6 +22,7 @@ import {
 } from "@tabler/icons-react";
 import { IconUser } from "@tabler/icons-react";
 import SubNav from "./subNav";
+import Link from "next/link";
 interface NavbarProps {}
 
 const Navbar: React.FC = () => {
@@ -51,9 +52,11 @@ const Navbar: React.FC = () => {
         align={"center"}
         justify={"space-between"}>
         <Flex align={"center"}>
-          <Text size='30px' ff={"var(--fontInter)"} fw={900} c={"#003566"}>
-            Sh.
-          </Text>
+          <Link href={"/"}>
+            <Text size='30px' ff={"var(--fontInter)"} fw={900} c={"#003566"}>
+              Sh.
+            </Text>
+          </Link>
         </Flex>
         <TextInput
           w={{
