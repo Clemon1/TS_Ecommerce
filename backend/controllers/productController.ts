@@ -42,6 +42,7 @@ export const searchProducts = async (req: Request, res: Response) => {
     const searchProduct = await product.find({
       $or: [{ title: { $regex: productSearch, $options: "i" } }],
     });
+
     res.status(200).json(searchProduct);
   } catch (err: any) {
     res.status(500).json(err.message);
@@ -71,11 +72,12 @@ export const filterProducts = async (req: Request, res: Response) => {
 // create product
 export const createProducts = async (req: Request, res: Response) => {
   try {
-    const { title, description, category, price, quantity } = req.body;
+    const { title, description, category, subCategory, price, quantity } =
+      req.body;
     //@ts-ignore
     const image = req.files["image"][0] && req.files["image"][0].path;
 
-    const otherPhoto =
+    const otherPhoto: Express.Multer.File[] =
       //@ts-ignore
       req.files["otherPhoto"] &&
       //@ts-ignore
@@ -87,6 +89,7 @@ export const createProducts = async (req: Request, res: Response) => {
       otherPhoto,
       description,
       category,
+      subCategory,
       price,
       quantity,
     });

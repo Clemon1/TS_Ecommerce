@@ -9,6 +9,7 @@ import {
   SimpleGrid,
   Text,
 } from "@mantine/core";
+import { IconBookmarkFilled, IconCactusFilled } from "@tabler/icons-react";
 import { useState } from "react";
 
 const Product = () => {
@@ -31,7 +32,6 @@ const Product = () => {
       w={"100%"}
       mt={{ base: "80px", sm: "82px", md: "80px", lg: "85px", xl: "85px" }}
       py={35}>
-      <Text>Product Page</Text>
       <Flex
         w={"100%"}
         gap={20}
@@ -99,6 +99,15 @@ const Product = () => {
                 ))}
               </SimpleGrid>
             </Box>
+          </Flex>
+          <Flex w={"100%"} gap={10}>
+            <Button w={"90%"} bg={"#000814"} c='#ffffff'>
+              <IconCactusFilled size={20} color='#000814' />
+              Add to Cart
+            </Button>
+            <Button w={"15%"} bg={"#dee2e6"} c={"#000814"}>
+              <IconBookmarkFilled size={20} color='#000814' />
+            </Button>
           </Flex>
         </Flex>
       </Flex>

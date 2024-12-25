@@ -25,6 +25,7 @@ const SlideCaurosel: React.FC = () => {
       {images.map((url: any) => (
         <Carousel.Slide key={url}>
           <Image
+            key={url}
             fit='cover'
             radius={"md"}
             h={"-webkit-fill-available"}

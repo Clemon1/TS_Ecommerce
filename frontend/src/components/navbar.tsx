@@ -83,33 +83,35 @@ const Navbar: React.FC = () => {
           leftSection={<IconSearch size={20} fontWeight={900} color='gray' />}
         />
         <Flex gap={4} justify={"space-between"} align={"center"}>
-          <Button
-            pos={"relative"}
-            bg={"transparent"}
-            c={"#000000"}
-            display={"flex"}
-            w={"48px"}
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-            }}>
-            <IconShoppingBag size={25} color='#000000' />
-            <Flex
+          <Link href={"/cart"}>
+            <Button
+              pos={"relative"}
+              bg={"transparent"}
+              c={"#000000"}
+              display={"flex"}
+              w={"48px"}
               style={{
-                borderRadius: "100%",
-              }}
-              pos={"absolute"}
-              top={0}
-              right={1}
-              justify={"center"}
-              bg={"#ef2d56"}
-              w={22}
-              fz={"14px"}
-              c='#f1faee'
-              p={4}>
-              10
-            </Flex>
-          </Button>
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
+              <IconShoppingBag size={25} color='#000000' />
+              <Flex
+                style={{
+                  borderRadius: "100%",
+                }}
+                pos={"absolute"}
+                top={0}
+                right={1}
+                justify={"center"}
+                bg={"#ef2d56"}
+                w={22}
+                fz={"14px"}
+                c='#f1faee'
+                p={4}>
+                10
+              </Flex>
+            </Button>
+          </Link>
           <Button
             w={"40px"}
             display={{

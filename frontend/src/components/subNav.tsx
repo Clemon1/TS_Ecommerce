@@ -117,6 +117,7 @@ const SubNav: React.FC = () => {
                     </Menu.Label>
                     {test.sub.map((tes: any) => (
                       <Menu.Item
+                        key={tes}
                         leftSection={
                           <IconUser
                             style={{ width: rem(14), height: rem(14) }}

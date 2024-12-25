@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Orders from "../models/orderModel";
 import cart from "../models/cartModel";
+import product from "../models/productModel";
+import mongoose from "mongoose";
 
 // get all orders
 export const getAllOrder = async (req: Request, res: Response) => {
@@ -35,45 +37,56 @@ export const getSingleOrder = async (req: Request, res: Response) => {
   }
 };
 
-// create a new order
+// Create new order
 export const createOrder = async (req: Request, res: Response) => {
   try {
     const user = req.user;
     if (!user) return res.status(401).json("No user found");
-    const userCart = await cart.findOne({ userId: user });
-    const {
-      productId,
-      productImage,
-      productName,
-      price,
-      quantity,
-      totalPrice,
-      shippingAddress,
-    } = req.body;
 
+    const userCart = await cart.findOne({ userId: user });
+
+    const { items, totalPrice, shippingAddress } = req.body;
+
+    // Validate and update stock for each product
+    for (const item of items) {
+      const { productId, quantity } = item;
+
+      const productItem = await product.findById(productId);
+      if (!productItem) {
+        throw new Error(`Product with ID ${productId} not found`);
+      }
+
+      if (productItem.quantity < quantity) {
+        throw new Error(
+          `Insufficient stock for product ${productItem.title} (ID: ${productId})`,
+        );
+      }
+
+      // Update product stock
+      productItem.quantity -= quantity;
+      await productItem.save();
+    }
+
+    // Create the order
     const order = new Orders({
       userId: user,
-      items: [
-        {
-          productId,
-          productImage,
-          productName,
-          price,
-          quantity,
-        },
-      ],
+      items, // Use the items array directly from the request body
       totalPrice,
       shippingAddress,
     });
+
     const savedOrder = await order.save();
+
+    // Clear user cart if it exists
     if (userCart) {
       //@ts-ignore
       userCart.product = [];
       await userCart.save();
     }
+
     res.status(201).json(savedOrder);
   } catch (err: any) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -89,3 +102,7 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
     res.status(500).json(err.message);
   }
 };
+
+// Paystack Payment
+
+// Stripe Payment

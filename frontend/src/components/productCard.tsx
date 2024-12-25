@@ -70,7 +70,7 @@ const ProductCard: React.FC<CardProps> = ({
         verticalSpacing={{ base: 2, sm: 2 }}>
         <Text
           lineClamp={2}
-          fw={600}
+          fw={500}
           ta={"left"}
           pr={18}
           style={{

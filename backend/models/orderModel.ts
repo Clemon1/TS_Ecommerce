@@ -9,6 +9,8 @@ type orderTypes = {
       productName: string;
       price: number;
       quantity: number;
+      size?: string;
+      color?: string;
     },
   ];
   totalPrice: number;
@@ -32,6 +34,8 @@ const orderSchema = new Schema<orderTypes>(
         productImage: { type: String },
         productName: { type: String },
         price: { type: Number },
+        size: String,
+        color: String,
         quantity: { type: Number, default: 1 },
       },
     ],
